@@ -8,17 +8,49 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController {
+class WeatherViewController: UIViewController, UISearchTextFieldDelegate {
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var searchTextField: UITextField!
+    
+    let weatherManager = WeatherManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        // Sets the delegate as itself
+        searchTextField.delegate = self
+        
     }
-
-
+    @IBAction func searchPressed(_ sender: UIButton) {
+        searchTextField.endEditing(true)
+    }
+    
+    
+    // What to do when "return" button pressed
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.endEditing(true)
+        return true
+    }
+    
+    // When they deselect the text field
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if (searchTextField.text != nil) {
+            return true
+        } else {
+            textField.placeholder = "You should really type something..."
+            return true
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let cityName = searchTextField.text {
+            weatherManager.fetchWeather(cityName: cityName)
+        }
+        searchTextField.text = nil
+    }
 }
 
