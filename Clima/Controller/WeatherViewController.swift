@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UISearchTextFieldDelegate, WeatherManagerDelegate {
+class WeatherViewController: UIViewController, WeatherManagerDelegate {
     
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -30,7 +30,12 @@ class WeatherViewController: UIViewController, UISearchTextFieldDelegate, Weathe
         searchTextField.endEditing(true)
     }
     
-    
+}
+
+//
+
+// MARK
+extension WeatherViewController: UITextFieldDelegate {
     // What to do when "return" button pressed
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.endEditing(true)
@@ -54,6 +59,9 @@ class WeatherViewController: UIViewController, UISearchTextFieldDelegate, Weathe
         searchTextField.text = nil
     }
     
+}
+
+extension WeatherViewController: WeatherManagerDelegate {
     // Formated to follow delegate method to include self
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         // This is a closure i.e. anonymous function
@@ -67,5 +75,5 @@ class WeatherViewController: UIViewController, UISearchTextFieldDelegate, Weathe
     func didFailWithError(error: Error) {
         print(error)
     }
+    
 }
-
