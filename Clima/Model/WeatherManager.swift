@@ -16,11 +16,15 @@ protocol WeatherManagerDelegate {
 struct WeatherManager {
     let openWeatherAPIKey = "c74faee9b67eb1353ceb522756a4aa12"
     let openWeatherURL = "https://api.openweathermap.org/data/2.5/weather?&appid=c74faee9b67eb1353ceb522756a4aa12&units=metric"
-    
     var delegate: WeatherManagerDelegate?
     
     func fetchWeather(cityName: String) {
         let urlString = "\(self.openWeatherURL)&q=\(cityName)"
+        preformRequest(with: urlString)
+    }
+    //Method overloading
+    func fetchWeather(lat: Double, lon: Double) {
+        let urlString = "\(self.openWeatherURL)&lat=\(lat)&lon=\(lon)"
         preformRequest(with: urlString)
     }
     
