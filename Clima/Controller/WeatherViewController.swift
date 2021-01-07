@@ -39,6 +39,8 @@ class WeatherViewController: UIViewController {
         searchTextField.endEditing(true)
     }
     @IBAction func locationButtonPressed(_ sender: UIButton) {
+        locationManager.requestLocation()
+        print("pressed")
     }
     
 }
@@ -77,6 +79,8 @@ extension WeatherViewController: WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         // This is a closure i.e. anonymous function
         DispatchQueue.main.async {
+            // Need to call this so we can get another location when pressed
+            self.locationManager.stopUpdatingLocation()
             self.temperatureLabel.text = weather.tempString
             self.cityLabel.text = weather.cityName
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
